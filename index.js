@@ -9,7 +9,7 @@ const template = process.argv.includes("--template=typescript") ? "ts" : "js";
 
 // Detect package manager (bunx or npx)
 function detectPackageManager() {
-    if (process.argv[0].includes("bun") || process.env.BUN_INSTALL) {
+    if (process.argv[0].includes("bunx") || process.env.BUN_INSTALL) {
         return "bun";
     }
     return "npm";

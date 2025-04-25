@@ -1,7 +1,7 @@
 {
     "name": "create-robtic-app",
     "description": "CLI to quickly scaffold a Discord bot using robtic-discord-startup",
-    "version": "1.0.9",
+    "version": "1.1.0",
     "bin": {
         "create-robtic-app": "index.js"
     },
@@ -10,6 +10,14 @@
     ],
     "author": "RoBo",
     "license": "MIT",
+    "keywords": [
+        "RoBo",
+        "RobTic",
+        "discord.js",
+        "client",
+        "bots",
+        "robtic-discord-startup"
+    ],
     "type": "commonjs",
     "engines": {
         "node": ">=18"
@@ -19,10 +27,10 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/RoBoCRAFTYT01/robtic-discord-startup.git"
+        "url": "git+https://github.com/RoBoCRAFTYT01/create-robtic-app"
     },
     "bugs": {
-        "url": "https://github.com/RoBoCRAFTYT01/robtic-discord-startup/issues"
+        "url": "https://github.com/RoBoCRAFTYT01/create-robtic-app/issues"
     },
-    "homepage": "https://github.com/RoBoCRAFTYT01/"
+    "homepage": "https://www.npmjs.com/package/robtic-discord-startup"
 }
