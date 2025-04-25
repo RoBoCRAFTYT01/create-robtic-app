@@ -3,6 +3,7 @@
   "workspaces": {
     "": {
       "dependencies": {
+        "chalk": "^5.4.1",
         "robtic-discord-startup": "^1.1.20",
       },
     },
