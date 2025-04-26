@@ -13,7 +13,7 @@
 const { Command } = require('commander');
 const chalk = require('chalk');
 const { execSync } = require('child_process');
-const { existsSync, mkdirSync, cpSync, readFileSync, writeFileSync } = require('fs');
+const { existsSync, mkdirSync, cpSync, readFileSync, writeFileSync, rm } = require('fs');
 const { join } = require('path');
 const validateProjectName = require('validate-npm-package-name');
 const packageJson = require('./package.json');
@@ -133,9 +133,10 @@ function setupProjectDirectory(appName, projectPath) {
  * @param {string} template - Template type
  * @param {string} templatePath - Template path
  */
-function validateTemplate(template, templatePath) {
+function validateTemplate(template, templatePath, appName) {
     if (!existsSync(templatePath)) {
         console.error(chalk.red(`[RobTic] Template "${template}" not found at ${templatePath}.`));
+        rm(appName, { recursive: true, force: true })
         process.exit(1);
     }
 }
@@ -180,7 +181,7 @@ function init() {
             const pkgJsonPath = join(projectPath, 'package.json');
 
             setupProjectDirectory(projectName, projectPath);
-            validateTemplate(options.template, templatePath);
+            validateTemplate(options.template, templatePath, folderName);
 
             console.log(chalk.blueBright(`[RobTic] Creating ${folderName} with ${options.template} template using ${packageManager}...`));
 
