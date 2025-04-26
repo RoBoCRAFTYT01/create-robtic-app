@@ -210,4 +210,4 @@ function init() {
     program.parse(process.argv);
 }
 
-module.export = { init };
+module.exports = { init };
