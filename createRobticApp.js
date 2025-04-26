@@ -10,13 +10,13 @@
  * Ensure compatibility with Node 10+ and avoid breaking changes.
  */
 
-import { Command } from 'commander';
-import chalk from 'chalk';
-import { execSync } from 'child_process';
-import { existsSync, mkdirSync, cpSync, readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
-import validateProjectName from 'validate-npm-package-name';
-import packageJson from './package.json' assert { type: 'json' };
+const { Command } = ('commander');
+const chalk = ('chalk');
+const { execSync } = ('child_process');
+const { existsSync, mkdirSync, cpSync, readFileSync, writeFileSync } = ('fs');
+const { join } = ('path');
+const validateProjectName = ('validate-npm-package-name');
+const packageJson = ('./package.json');
 
 const SUPPORTED_PACKAGE_MANAGERS = ['bun', 'yarn', 'npm', 'pnpm'];
 const DEPENDENCIES = ['robtic-discord-startup', 'create-robtic-app', 'discord.js'];
