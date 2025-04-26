@@ -6,7 +6,8 @@
         "create-robtic-app": "index.js"
     },
     "files": [
-        "index.js"
+        "index.js",
+        "templates"
     ],
     "author": "RoBo",
     "license": "MIT",
