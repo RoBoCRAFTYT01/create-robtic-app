@@ -10,13 +10,13 @@
  * Ensure compatibility with Node 10+ and avoid breaking changes.
  */
 
-const { Command } = ('commander');
-const chalk = ('chalk');
-const { execSync } = ('child_process');
-const { existsSync, mkdirSync, cpSync, readFileSync, writeFileSync } = ('fs');
-const { join } = ('path');
-const validateProjectName = ('validate-npm-package-name');
-const packageJson = ('./package.json');
+const { Command } = require('commander');
+const chalk = require('chalk');
+const { execSync } = require('child_process');
+const { existsSync, mkdirSync, cpSync, readFileSync, writeFileSync } = require('fs');
+const { join } = require('path');
+const validateProjectName = require('validate-npm-package-name');
+const packageJson = require('./package.json');
 
 const program = new Command()
 
