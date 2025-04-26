@@ -13,7 +13,7 @@
 const { Command } = require('commander');
 const chalk = require('chalk');
 const { execSync } = require('child_process');
-const { existsSync, mkdirSync, cpSync, readFileSync, writeFileSync, rm } = require('fs');
+const { existsSync, mkdirSync, cpSync, readFileSync, writeFileSync, rmSync } = require('fs');
 const { join } = require('path');
 const validateProjectName = require('validate-npm-package-name');
 const packageJson = require('./package.json');
@@ -136,7 +136,7 @@ function setupProjectDirectory(appName, projectPath) {
 function validateTemplate(template, templatePath, appName) {
     if (!existsSync(templatePath)) {
         console.error(chalk.red(`[RobTic] Template "${template}" not found at ${templatePath}.`));
-        rm(appName, { recursive: true, force: true })
+        rmSync(appName, { recursive: true, force: true })
         process.exit(1);
     }
 }
