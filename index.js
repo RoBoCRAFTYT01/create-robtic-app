@@ -50,6 +50,7 @@ if (existsSync(projectName)) {
 
 // Validate template directory
 const templatePath = join(__dirname, "templates", template);
+console.log(templatePath)
 if (!existsSync(templatePath)) {
     console.error(chalk.red(`❌ Template "${template}" not found at ${templatePath}.`));
     process.exit(1);

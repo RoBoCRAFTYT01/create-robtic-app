@@ -1,13 +1,12 @@
 {
     "name": "create-robtic-app",
     "description": "CLI to quickly scaffold a Discord bot using robtic-discord-startup",
-    "version": "1.1.11",
+    "version": "1.1.12",
     "bin": {
         "create-robtic-app": "index.js"
     },
     "files": [
-        "index.js",
-        "templates"
+        "index.js"
     ],
     "author": "RoBo",
     "license": "MIT",
@@ -33,5 +32,8 @@
     "bugs": {
         "url": "https://github.com/RoBoCRAFTYT01/create-robtic-app/issues"
     },
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    }, 
     "homepage": "https://www.npmjs.com/package/robtic-discord-startup"
 }
