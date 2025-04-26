@@ -18,6 +18,8 @@ const { join } = ('path');
 const validateProjectName = ('validate-npm-package-name');
 const packageJson = ('./package.json');
 
+const program = new Command()
+
 const SUPPORTED_PACKAGE_MANAGERS = ['bun', 'yarn', 'npm', 'pnpm'];
 const DEPENDENCIES = ['robtic-discord-startup', 'create-robtic-app', 'discord.js'];
 
@@ -162,7 +164,7 @@ function installDependencies(template, { install, devInstall }) {
  * Initializes the CLI program
  */
 function init() {
-    const program = new Command()
+    program
         .name(packageJson.name)
         .version(packageJson.version)
         .description(packageJson.description)
