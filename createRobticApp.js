@@ -217,24 +217,12 @@ function start(projectName, options) {
  * Help Message
  */
 const HelpMessageBefore = `
-                                🌟 ${chalk.blue("Welcome to Robtic CLI!")} 🌟
-                    ${chalk.bold("Create")}, ${chalk.bold("manage")}, and ${chalk.bold("launch")} your ${chalk.blueBright("Discord")} bots with ease.
-            ${chalk.bgBlueBright("Usage")}
-                npx create-robtic-app ${chalk.gray("[folder]")} ${chalk.gray("[options]")}
+                🌟 ${chalk.blue("Welcome to Robtic CLI!")} 🌟
+        ${chalk.bold("Create")}, ${chalk.bold("manage")}, and ${chalk.bold("launch")} your ${chalk.blueBright("Discord")} bots with ease.
 `
 
 const HelpMessageAfter = `
-            ${chalk.bold("[folder]:")}
-                - "." => select current folder path,
-                - "foldername" => create new folder with any name you want
-            
-            ${chalk.bold("Note!!:")} the folder name must support npm package name
-
-            ${chalk.bold("[options]:")}
-                -t, --template ts|js -> choose TypeScript or JavaScript
-
-            
-                ${chalk.bold("Need more help? Join our Discord server: Not Yet")}
+                ${chalk.bold("Need more help? Join our Discord server")}
 `
 
 /**
