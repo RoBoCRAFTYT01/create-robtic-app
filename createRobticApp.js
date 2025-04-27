@@ -1,14 +1,22 @@
 #!/usr/bin/env bun
 
 /**
- * Copyright (c) 2025, RobTic, RoBo.
- * Licensed under the MIT License. See LICENSE file in the project root.
+ * Copyright (c) 2025, RobTic,  RoBo.
  *
- * WARNING: DO NOT MODIFY THIS FILE
- * This script initializes a RobTic app and forwards commands to the local version.
- * Only modify to add warnings or troubleshooting info for create-robtic-app.
- * Ensure compatibility with Node 10+ and avoid breaking changes.
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
  */
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//   /!\ DO NOT MODIFY THIS FILE /!\
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//
+// The only job of create-robtic-app is to init the repository and then
+// forward all the commands to the local version of create-robtic-app.
+//
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//   /!\ DO NOT MODIFY THIS FILE /!\
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 const { Command } = require('commander');
 const chalk = require('chalk');
@@ -162,6 +170,74 @@ function installDependencies(template, { install, devInstall }) {
 }
 
 /**
+ * full start code
+ * @param {string} projectName 
+ * @param {string} options 
+ */
+function start(projectName, options) {
+    const packageManager = detectPackageManager();
+    const { install, devInstall } = getPackageManagerCommands(packageManager);
+    const projectPath = resolveProjectPath(projectName);
+    const folderName = projectName === '.' ? projectPath.split(/[\\/]/).pop() : projectName;
+    const templatePath = join(__dirname, 'templates', options.template);
+    const pkgJsonPath = join(projectPath, 'package.json');
+
+    setupProjectDirectory(projectName, projectPath);
+    validateTemplate(options.template, templatePath, folderName);
+
+    console.log(chalk.blueBright(`[RobTic] Creating ${folderName} with ${options.template} template using ${packageManager}...`));
+
+    try {
+        cpSync(templatePath, projectPath, { recursive: true });
+        const pkgJson = JSON.parse(readFileSync(pkgJsonPath, 'utf8'));
+
+        pkgJson.name = folderName;
+        pkgJson.scripts = generateScripts(options.template, packageManager);
+        if (packageManager !== 'bun' && options.template === 'ts') {
+            pkgJson.devDependencies = { ...pkgJson.devDependencies, tsx: '^4.19.1' };
+        }
+
+        writeFileSync(pkgJsonPath, JSON.stringify(pkgJson, null, 2));
+        process.chdir(projectPath);
+
+        console.log(chalk.blueBright(`[RobTic] Installing dependencies with ${packageManager}...`));
+        installDependencies(options.template, { install, devInstall });
+
+        console.log(chalk.greenBright(`[RobTic] Done! Run your bot and enjoy! 🚀`));
+        console.log(chalk.cyan(`  cd ${folderName}`));
+        console.log(chalk.cyan(`  ${packageManager} run start`));
+    } catch (error) {
+        console.error(chalk.red(`[RobTic] Failed to create project: ${error.message}`));
+        process.exit(1);
+    }
+}
+
+
+/**
+ * Help Message
+ */
+const HelpMessageBefore = `
+                                🌟 ${chalk.blue("Welcome to Robtic CLI!")} 🌟
+                    ${chalk.bold("Create")}, ${chalk.bold("manage")}, and ${chalk.bold("launch")} your ${chalk.blueBright("Discord")} bots with ease.
+            ${chalk.bgBlueBright("Usage")}
+                npx create-robtic-app ${chalk.gray("[folder]")} ${chalk.gray("[options]")}
+`
+
+const HelpMessageAfter = `
+            ${chalk.bold("[folder]:")}
+                - "." => select current folder path,
+                - "foldername" => create new folder with any name you want
+            
+            ${chalk.bold("Note!!:")} the folder name must support npm package name
+
+            ${chalk.bold("[options]:")}
+                -t, --template ts|js -> choose TypeScript or JavaScript
+
+            
+                ${chalk.bold("Need more help? Join our Discord server: Not Yet")}
+`
+
+/**
  * Initializes the CLI program
  */
 function init() {
@@ -171,44 +247,12 @@ function init() {
         .description(packageJson.description)
         .argument('<project-name>', 'Name of the project directory')
         .option('-t, --template <type>', 'Select project type', 'js')
-        .allowUnknownOption()
-        .action((projectName, options) => {
-            const packageManager = detectPackageManager();
-            const { install, devInstall } = getPackageManagerCommands(packageManager);
-            const projectPath = resolveProjectPath(projectName);
-            const folderName = projectName === '.' ? projectPath.split(/[\\/]/).pop() : projectName;
-            const templatePath = join(__dirname, 'templates', options.template);
-            const pkgJsonPath = join(projectPath, 'package.json');
-
-            setupProjectDirectory(projectName, projectPath);
-            validateTemplate(options.template, templatePath, folderName);
-
-            console.log(chalk.blueBright(`[RobTic] Creating ${folderName} with ${options.template} template using ${packageManager}...`));
-
-            try {
-                cpSync(templatePath, projectPath, { recursive: true });
-                const pkgJson = JSON.parse(readFileSync(pkgJsonPath, 'utf8'));
-
-                pkgJson.name = folderName;
-                pkgJson.scripts = generateScripts(options.template, packageManager);
-                if (packageManager !== 'bun' && options.template === 'ts') {
-                    pkgJson.devDependencies = { ...pkgJson.devDependencies, tsx: '^4.19.1' };
-                }
-
-                writeFileSync(pkgJsonPath, JSON.stringify(pkgJson, null, 2));
-                process.chdir(projectPath);
-
-                console.log(chalk.blueBright(`[RobTic] Installing dependencies with ${packageManager}...`));
-                installDependencies(options.template, { install, devInstall });
-
-                console.log(chalk.greenBright(`[RobTic] Done! Run your bot and enjoy! 🚀`));
-                console.log(chalk.cyan(`  cd ${folderName}`));
-                console.log(chalk.cyan(`  ${packageManager} run start`));
-            } catch (error) {
-                console.error(chalk.red(`[RobTic] Failed to create project: ${error.message}`));
-                process.exit(1);
-            }
-        });
+        .helpOption("-h, --help", 'Show help for Robtic CLI')
+        .showHelpAfterError(true)
+        .allowUnknownOption(true)
+        .addHelpText("before", HelpMessageBefore)
+        .addHelpText("after", HelpMessageAfter)
+        .action((projectName, options) => start(projectName, options));
 
     program.parse(process.argv);
 }

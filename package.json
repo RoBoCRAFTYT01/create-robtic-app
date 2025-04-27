@@ -1,7 +1,7 @@
 {
     "name": "create-robtic-app",
     "description": "CLI to quickly scaffold a Discord bot using robtic-discord-startup",
-    "version": "1.2.01",
+    "version": "1.2.02",
     "bin": {
         "create-robtic-app": "index.js"
     },
